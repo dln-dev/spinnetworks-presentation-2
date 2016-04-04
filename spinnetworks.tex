@@ -7,6 +7,10 @@
                             % of umlauts in pdf
 \usepackage{graphicx}
 \usepackage{braket}
+\usepackage{listings}
+
+% "mbeq": must be equal
+\newcommand{\mbeq}{\overset{!}{=}}
 
 \begin{document}
 
@@ -23,17 +27,17 @@
 		\begin{column}{0.33\textwidth}
 			\centering
    			Processors
-   			%\includegraphics[width=\textwidth]{Images/processor}
+   			\includegraphics[width=\textwidth]{Images/processor}
 		\end{column}
 		\uncover<2->{\begin{column}{0.33\textwidth}
 			\centering
     		Computers
-    		%\includegraphics[trim=0 0 0 -40mm, width=\textwidth]{Images/computer}
+    		\includegraphics[trim=0 0 0 -40mm, width=\textwidth]{Images/computer}
 		\end{column}}
      	\uncover<3->{\begin{column}{0.33\textwidth}
      		\centering
      		Computing
-     		%\includegraphics[trim=0 0 0 -20mm, width=\textwidth]{Images/computing}
+     		\includegraphics[trim=0 0 0 -20mm, width=\textwidth]{Images/computing}
 		\end{column}}
 	\end{columns}
 \end{frame}
@@ -178,6 +182,7 @@
    				\item Identify rows and columns with equal number of $1$s (e.g. 1)
    				\item Strip away all other rows and columns
    				\item Compile matrix from rows and columns left
+   				\item ${N \choose s}$ vertices (states) in graph
    			\end{itemize}
    		\end{column}
 		\begin{column}{0.5\textwidth}
@@ -261,7 +266,7 @@
 	\begin{exampleblock}{}
 	\setlength\abovedisplayskip{-8pt}
 	\begin{center}
-		$ \text{iff }\frac{t_G}{t_H} \in \mathbb{Q} \rightarrow t_{G\times H} = LCM(t_G,t_H) $
+		$ \text{iff }\frac{t_G}{t_H} \in \mathbb{Q}$ %\rightarrow t_{G\times H} = LCM(t_G,t_H) $
 	\end{center}
 	\end{exampleblock}
 \end{frame}
@@ -294,12 +299,86 @@
 \end{frame}
 
 \subsection{Spin Switch}
-\begin{frame}{Local Potentials}
-    Pic of Switch, Variety low, introduce local potentials, only affect diagonal entries, add loops to vertices (left out for clarity), realized as magnetic fields etc.
+\begin{frame}[t]{Spin Switch}
+	\begin{exampleblock}{}
+	\setlength\abovedisplayskip{-8pt}
+	\begin{center}
+		\[ H = J\sum_{i=1}^{N-1}\left[\sigma_0^x\sigma_i^x + \sigma_0^y\sigma_i^y\right] + \sum_{i=0}^{N-1}h_i\sigma_i^z \]
+	\end{center}
+	\end{exampleblock}
+	\begin{columns}[T]
+		\begin{column}{0.5\textwidth}
+			\centering
+   			\begin{itemize}
+				\item Introduce local potentials
+				\item Slight variations only
+				\item Diagonal entries 
+				\item E.g. magnetic offset field
+			\end{itemize}
+		\end{column}
+		\begin{column}{0.5\textwidth}
+			\centering
+    		%\includegraphics[trim=0mm 0 0 0mm, width=1.2\textwidth]{Images/switch_labeled}
+		\end{column}
+	\end{columns}
+%    Pic of Switch, Variety low, introduce local potentials, only affect diagonal entries, add loops to vertices (left out for clarity), realized as magnetic fields etc.
 \end{frame}
 
 \begin{frame}{Spin Switch}
+	\begin{columns}[T]
+		\begin{column}{0.6\textwidth}
+   			\centering
+   			\begin{itemize}
+   				\item Start: $\ket{\Psi_1} = \alpha \ket{0} + \beta \ket{1}$
+   				\item Target: $\ket{\Psi_2} = \alpha \ket{0} + \beta \ket{2}$
+   				\item $\braket{2|U(\tau)|1} = \braket{1|U(\tau)|2} \mbeq 1$
+   				\item Set $h_1 = h_2$, so that $\left[H,P_{12}\right]=0$ 
+   				%\[U(\tau)=\sum_{k=0}^3\ket{e_k}\bra{e_k}e^{-\text{i}E_k\tau}\]
+   			\end{itemize}
+		\end{column}
+		\begin{column}{0.4\textwidth}
+			\centering
+    		$H = \begin{pmatrix}
+			h_0 & 1 & 1 & 1 \\
+			1 & h_1 & 0 & 0 \\
+			1 & 0 & h_2 & 0 \\
+			1 & 0 & 0 & h_3
+\end{pmatrix}$
+		\end{column}
+	\end{columns}
+	\[\sum_{k=0}^3\bra{1}(P_{12}\ket{e_k})\braket{e_k|1}e^{-\text{i}E_k\tau} \mbeq 1\]\\
+   			Choose $E_k$ so they eliminate the phase introduced by $P_{12}$: $E_k \in \{0,h_1,\pm\eta h_1\}$, $\eta$ even.\\
+   			Compare $\det(H-\lambda\text{1}_4) = 0$ and $\det(\text{diag}(0,h_1,\pm\eta h_1)-\lambda\text{1}_4) = 0$\\
+   			Real roots of the resulting polynomial are solutions for $h_1$, $\tau = \frac{\pi}{h_1}$.
 %    sketch calculation, more arms handled by renormalization, fidelities
+\end{frame}
+
+\begin{frame}{Spin Switch with more Arms}
+			\begin{itemize}
+			\item Impose further symmetry condition: $\lambda_3 = \lambda_4 = \dots = \lambda_N$
+			\item Renormalize $\ket{3}_{new}=(\ket{3}_{old} + \ket{4} + \dots + \ket{N})/\sqrt{M}$, $M=N-3$
+			\end{itemize}
+	\begin{columns}[T]
+		\begin{column}{0.5\textwidth}
+   			\centering
+   			%\includegraphics[trim=0mm 0 0 0mm, width=1.2\textwidth]{Images/switch4_labeled}
+		\end{column}
+		\begin{column}{0.5\textwidth}
+			\centering
+    		$H = \begin{pmatrix}
+			h_0 & 1 & 1 & \sqrt{M} \\
+			1 & h_1 & 0 & 0 \\
+			1 & 0 & h_2 & 0 \\
+			\sqrt{M} & 0 & 0 & h_3
+\end{pmatrix}$
+		\end{column}
+	\end{columns}
+%    sketch calculation, more arms handled by renormalization, fidelities
+\end{frame}
+
+\begin{frame}{Fidelity}
+	\centering
+	\includegraphics[trim=0mm 0 0 0mm, width=0.75\textwidth]{Images/switch_fidelities}
 \end{frame}
 
 \subsection{Switch$^2$}
@@ -313,9 +392,9 @@
 			\centering
     		\begin{itemize}
     			\item Vertex $(u,v)$ needs $h_{u,v} = h_u + h_v \rightarrow $ local potentials are added
-    			\item State at vertex 5 is transferred to vertex 10 or 15
-    			\item Symmetry of simple switch $\rightarrow$ transfer from ??? to ??? or ??? to ??? with same configuration
-    			\item Higher products function similar
+    			\item State at vertex 5 is transferred to vertex 10 or 15 at $t = \frac{\pi}{h_1}$
+    			\item Symmetry of simple switch $\rightarrow$ transfer from 6 to 9 or 7 to 13 with same configuration
+    			\item Higher products similar
     		\end{itemize}
 		\end{column}
 	\end{columns}
@@ -324,13 +403,83 @@
 
 \section{Roadmap}
 \subsection{Varying Couplings}
-\begin{frame}{Varying Couplings}
-    Local couplings leads to much more variety, spin chains with perfect couplings (isomorphism of hilbert spaces to spin n-something particle), not yet looked at switch
+\begin{frame}[t]{Varying Couplings}
+	\begin{exampleblock}{}
+	\setlength\abovedisplayskip{-8pt}
+	\begin{center}
+		\[H_{XX}=\frac{1}{2}\sum_{i=1}^{N}{J_i\left[\sigma_i^x\sigma_{i+1}^x + \sigma_i^y\sigma_{i+1}^y\right]}\]
+	\end{center}
+	\end{exampleblock}
+	\begin{columns}[T]
+		\begin{column}{0.5\textwidth}
+			\centering
+			Weighted graphs
+   			%\includegraphics[trim=0mm 0 0 0mm, width=\textwidth]{Images/graph_vary}
+		\end{column}
+		\begin{column}{0.5\textwidth}
+			\centering
+			Weighted adjacency matrices
+   			%\includegraphics[trim=0mm 0 0 0mm, width=\textwidth]{Images/adj_vary}
+		\end{column}
+	\end{columns}
+	
+%    Local couplings leads to much more variety, spin chains with perfect couplings (isomorphism of hilbert spaces to spin n-something particle), not yet looked at switch
+\end{frame}
+
+\begin{frame}[t]{Perfect Couplings}
+	\centering
+	%\includegraphics[trim=0mm 0 0 0mm, width=\textwidth]{Images/chain_perf}
+	\begin{itemize}
+		\item Hilbert spaces of same dimensions are isomorphic
+		\item Let $J_i = \sqrt{i(N-i)}$
+		\item N qubit spin chain with $J_i \leftrightarrow$ Particle with spin $s = \frac{N-1}{2}$
+		\item $H=\lambda S_x \rightarrow U(t)=e^{-\text{i}\lambda t S_x}$
+		\item $\braket{N|U(t)|1} = \left( -\text{i}\sin\left(\frac{\lambda t}{2}\right) \right)^{N-1}$
+	\end{itemize}	
+	\begin{columns}[T]
+		\begin{column}{0.5\textwidth}
+			\centering
+   			$H??? = \begin{pmatrix}
+			h_0 & 1 & 1 & \sqrt{M} \\
+			1 & h_1 & 0 & 0 \\
+			1 & 0 & h_2 & 0 \\
+			\sqrt{M} & 0 & 0 & h_3
+\end{pmatrix}$
+		\end{column}
+		\begin{column}{0.5\textwidth}
+			\centering
+   			%\includegraphics[trim=0mm 0 0 0mm, width=\textwidth]{Images/adj_chain6_1_perf}
+		\end{column}
+	\end{columns}
+%    Local couplings leads to much more variety, spin chains with perfect couplings (isomorphism of hilbert spaces to spin n-something particle), not yet looked at switch
 \end{frame}
 
 \subsection{Higher Excitation Subspaces}
-\begin{frame}{Higher Excitation Subspaces}
-    Possibility to control more than one qubit at each site, rings, QEC and fault tolerance, easy to calculate higher spin subspace graphs and hamiltonians, even full hamiltonian
+\begin{frame}{Higher Excitation Subspaces} %[fragile,t] for listings
+	\begin{itemize}
+		\item PST might be possible for single qubit sites
+		\item Control of more than one qubit
+		\begin{itemize}
+			\item Quantum error correction and fault tolerance
+		\end{itemize}
+		\item Prepare different states then send to different target sites
+	\end{itemize}
+	Calculating higher spin graphs from single spin graphs is an easy task.
+%	\begin{lstlisting}[language=Python]
+%def getEdges(self,spin=1):
+%    edges = []
+%    for vertex in self.getVertices(spin):
+%        dec = self.__decompose(vertex)
+%        for comb in combinations(dec,spin-1):
+%            neighbours = self.__neighbours([x for x in dec if x not in comb][0])
+%            for nn in neighbours:
+%                if nn not in comb:
+%                    edges += [(vertex,self.__xor(list(comb)+[nn]))]
+%        neighbours = []
+%    decomposition = []
+%    return edges
+%	\end{lstlisting}
+%    Possibility to control more than one qubit at each site, rings, QEC and fault tolerance, easy to calculate higher spin subspace graphs and hamiltonians, even full hamiltonian
 \end{frame}
 
 \subsection{Entanglement}
