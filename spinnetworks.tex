@@ -23,17 +23,17 @@
 		\begin{column}{0.33\textwidth}
 			\centering
    			Processors
-   			\includegraphics[width=\textwidth]{Images/processor}
+   			%\includegraphics[width=\textwidth]{Images/processor}
 		\end{column}
 		\uncover<2->{\begin{column}{0.33\textwidth}
 			\centering
     		Computers
-    		\includegraphics[trim=0 0 0 -40mm, width=\textwidth]{Images/computer}
+    		%\includegraphics[trim=0 0 0 -40mm, width=\textwidth]{Images/computer}
 		\end{column}}
      	\uncover<3->{\begin{column}{0.33\textwidth}
      		\centering
      		Computing
-     		\includegraphics[trim=0 0 0 -20mm, width=\textwidth]{Images/computing}
+     		%\includegraphics[trim=0 0 0 -20mm, width=\textwidth]{Images/computing}
 		\end{column}}
 	\end{columns}
 \end{frame}
@@ -114,6 +114,7 @@
 	\end{itemize}   
 %	is a subset of the set of all unordered pairs of vertices in $V$.
 	Example: $V = \{1,2,3\}, E = \{\{1,2\},\{2,3\}\}$
+		\includegraphics[trim=0 0 0 -5mm, width=\textwidth]{Images/chain3}
 \end{frame}
 
 \begin{frame}[t]{Adjacency Matrices}
@@ -136,11 +137,11 @@
 	\begin{columns}[T]
 		\begin{column}{0.5\textwidth}
 			\centering
-   			\includegraphics[width=\textwidth]{Images/processor}
+   			\includegraphics[trim=0 0 0 5mm, width=0.5\textwidth]{Images/adj_chain3}
 		\end{column}
 		\begin{column}{0.5\textwidth}
 			\centering
-    		\includegraphics[trim=0 0 0 -40mm, width=\textwidth]{Images/computer}
+    		\includegraphics[trim=0 0 0 18mm, width=0.6\textwidth]{Images/adj_ring6_2}
 		\end{column}
 	\end{columns}
 \end{frame}
@@ -149,19 +150,41 @@
 	\begin{columns}[T]
 		\begin{column}{0.33\textwidth}
 			\centering
-   			4-qubit chain
-   			\includegraphics[width=\textwidth]{Images/processor}
+   			6-qubit ring
+   			\includegraphics[width=\textwidth]{Images/ring6_hamilton}
 		\end{column}
 		\uncover<2->{\begin{column}{0.33\textwidth}
 			\centering
-    		6-qubit ring
-    		\includegraphics[trim=0 0 0 -40mm, width=\textwidth]{Images/computer}
+    		Graph
+    		\includegraphics[trim=0 0 0 0mm, width=\textwidth]{Images/ring6_hamilton_graph3d}
 		\end{column}}
      	\uncover<3->{\begin{column}{0.33\textwidth}
      		\centering
      		Single spin subspace
-     		\includegraphics[trim=0 0 0 -20mm, width=\textwidth]{Images/computing}
+     		\includegraphics[trim=0 0 0 0mm, width=\textwidth]{Images/adj_ring6_1}\\
+     		This is the adjacency matrix for the 6-qubit ring!
 		\end{column}}
+	\end{columns}
+\end{frame}
+
+\begin{frame}{How to identify subspaces}
+	\begin{columns}[T]
+		\begin{column}{0.5\textwidth}
+			\centering
+   			Recipe:
+   			\begin{itemize}
+   				\item Matrix labels $-1$
+   				\item Convert labels to binary
+   				\item Identify rows and columns with equal number of $1$s (e.g. 1)
+   				\item Strip away all other rows and columns
+   				\item Compile matrix from rows and columns left
+   			\end{itemize}
+   		\end{column}
+		\begin{column}{0.5\textwidth}
+			\centering
+    		Graph
+    		\includegraphics[trim=0 0 0 0mm, width=\textwidth]{Images/ring6_hamilton_graph3d_alt}
+		\end{column}
 	\end{columns}
 \end{frame}
 
@@ -192,15 +215,15 @@
 	\begin{columns}[T]
 		\begin{column}{0.33\textwidth}
 			\centering
-   			\includegraphics[width=\textwidth]{Images/processor}
+   			\includegraphics[width=\textwidth]{Images/graphprod_chain3_square}
 		\end{column}
 		\uncover<2->{\begin{column}{0.33\textwidth}
 			\centering
-    		\includegraphics[trim=0 0 0 -40mm, width=\textwidth]{Images/computer}
+    		\includegraphics[trim=0 0 0 -10mm, width=\textwidth]{Images/graphprod_chain3_chain2_square}
 		\end{column}}
      	\uncover<3->{\begin{column}{0.33\textwidth}
      		\centering
-     		\includegraphics[trim=0 0 0 -20mm, width=\textwidth]{Images/computing}
+     		\includegraphics[trim=30mm 0 0 0, width=\textwidth]{Images/graphprod_switch_square}
 		\end{column}}
 	\end{columns}
 \end{frame}
@@ -245,14 +268,29 @@
 
 \section{Examples}
 \subsection{Spin Chains}
-\begin{frame}{Spin Chains}
-
+\begin{frame}[t]{Spin Chains}
+	\includegraphics[trim=0 0 0 0, width=\textwidth]{Images/chain6_nolabels}
 %    PST, max 3, sketch of proof, fidelity
 \end{frame}
 
 \subsection{Spin Networks}
-\begin{frame}[t]{Cartesian Product of Graphs}
-    Spin chains too short -> more complex networks, explain kronecker product of graphs, sketch proof for fidelity decomposition, hypercubes, flattened versions.
+\begin{frame}[t]{Spin Networks}
+	\begin{columns}[T]
+		\begin{column}{0.33\textwidth}
+			\centering
+   			\includegraphics[width=\textwidth]{Images/ring4_nolabels}
+		\end{column}
+		\begin{column}{0.33\textwidth}
+			\centering
+    		\includegraphics[trim=0 0 0 -10mm, width=\textwidth]{Images/chain3_cubic}\\
+    		\includegraphics[trim=0 0 0 70mm, width=\textwidth]{Images/chain3_cubic_flattened}
+		\end{column}
+     	\begin{column}{0.33\textwidth}
+     		\centering
+     		\includegraphics[trim=30mm 0 0 0, width=\textwidth]{Images/chain3_hypercube}
+		\end{column}
+	\end{columns}
+%    Spin chains too short -> more complex networks, explain kronecker product of graphs, sketch proof for fidelity decomposition, hypercubes, flattened versions.
 \end{frame}
 
 \subsection{Spin Switch}
@@ -261,12 +299,27 @@
 \end{frame}
 
 \begin{frame}{Spin Switch}
-    sketch calculation, more arms handled by renormalization, fidelities
+%    sketch calculation, more arms handled by renormalization, fidelities
 \end{frame}
 
 \subsection{Switch$^2$}
 \begin{frame}{Switch$^2$}
-    graph product works with local potentials as well, added at each site, symmetries, more arms.
+	\begin{columns}[T]
+		\begin{column}{0.5\textwidth}
+			\centering
+   			\includegraphics[trim=0mm 0 0 0mm, width=1.2\textwidth]{Images/switch_square}
+		\end{column}
+		\begin{column}{0.5\textwidth}
+			\centering
+    		\begin{itemize}
+    			\item Vertex $(u,v)$ needs $h_{u,v} = h_u + h_v \rightarrow $ local potentials are added
+    			\item State at vertex 5 is transferred to vertex 10 or 15
+    			\item Symmetry of simple switch $\rightarrow$ transfer from ??? to ??? or ??? to ??? with same configuration
+    			\item Higher products function similar
+    		\end{itemize}
+		\end{column}
+	\end{columns}
+%    graph product works with local potentials as well, added at each site, symmetries, more arms.
 \end{frame}
 
 \section{Roadmap}
