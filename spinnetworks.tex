@@ -51,7 +51,7 @@
 			\item (Perfect) state transfer
 			\item Fixed interactions
 			\item Natural dynamics
-			\item Control over single qubit at each end only (for now)
+			\item Control single qubit at each end only (for now)
 		\end{itemize}
 	\end{itemize}
 	
@@ -71,8 +71,8 @@
 		\item $J\equiv const.$
 		\item No z coupling
 		\item $\left[H_{XX},\sigma^z_\text{tot}\right] = 0$
-		\item Eigenstates: $ $
-		\item Eigenvalues: $ $
+		\item Eigenstates: $\ket{\tilde{k}} = \sqrt{\frac{2}{N+1}}\sum_{s=1}^N\sin\left(\frac{\pi ks}{N+1}\right)\ket{s}$
+		\item Eigenvalues: $ E_k = 2\cos\left(\frac{\pi k}{N+1}\right)$
 	\end{itemize}
 %    Show complete Heisenberg model (no local potentials), explain terms, why no z coupling etc., commutes with total z spin, then XY model, what do states look like?
 \end{frame}
@@ -81,25 +81,25 @@
 \begin{frame}{Math setup}
 	\begin{description}
 	\item [Ground state of ferromagnetic spin-$\frac{1}{2}$ chain:] \[ \ket{\uparrow}_1 \otimes \ket{\uparrow}_2 \otimes \dots \otimes \ket{\uparrow}_N = \ket{\uparrow_1\uparrow_2\dots\uparrow_N} := \ket{0} \]
-	\item [Excitation operator $\sigma^- = \frac{1}{2}\left(\sigma^x - \text{i}\sigma^y\right)$:] \[ \text{1}_1 \otimes \text{1}_2 \otimes \dots \otimes \text{1}_{j-1} \otimes \sigma^- \otimes \text{1}_{j+1} \otimes \dots \otimes \text{1}_N := \sigma^-_j \]
-	\item [Single spin excitation:] \[ \sigma^-_j\ket{0} := \ket{j} \]
-	\item [Single spin superposition:] Prepare $j$th spin as $\alpha\ket{\uparrow}_j + \beta\ket{\downarrow}_j \rightarrow$ \[ \ket{\Psi} := \alpha\ket{0} + \beta\ket{j} \]
+	\item [Excitation operator $\sigma^- = \frac{1}{2}\left(\sigma^x - \text{i}\sigma^y\right)$:] \[ \text{1}_1 \otimes \text{1}_2 \otimes \dots \otimes \text{1}_{s-1} \otimes \sigma^- \otimes \text{1}_{s+1} \otimes \dots \otimes \text{1}_N := \sigma^-_s \]
+	\item [Single spin excitation:] \[ \sigma^-_s\ket{0} := \ket{s} \]
+	\item [Single spin superposition:] Prepare spin at $s$ as $\alpha\ket{\uparrow}_s + \beta\ket{\downarrow}_s \rightarrow$ \[ \ket{\Psi} := \alpha\ket{0} + \beta\ket{s} \]
 	\end{description}
 %    Explain numbers as kets, superpositions, graphs, later binary scheme for graphs, adjacency matrices and correspondence to hamiltonian, fidelity.
 \end{frame}
 
 \begin{frame}{Perfect state transfer}
-	In general, target state will evolve into a mixed state:\\
+%	In general, target state will evolve into a mixed state:\\
+	\[ \ket{\Psi_{in}} = \cos{\left(\frac{\Theta}{2}\right)} \ket{0} + e^{\text{i}\Phi}\sin{\left(\frac{\Theta}{2}\right)}\ket{s} \]
+	\[ \ket{\Psi_{out}} = \frac{1}{\sqrt{P(t)}}\left( \cos{\left(\frac{\Theta}{2}\right)} \ket{0} + e^{\text{i}\Phi}\sin{\left(\frac{\Theta}{2}\right)}f^N_{r,s}(t)\ket{r} \right) \]
 	\[ \rho_{out} = P(t)\ket{\Psi_{out}}\bra{\Psi_{out}} + \left( 1-P(t) \right)\ket{\uparrow}\bra{\uparrow} \]
-	with
-	\[ \ket{\Psi_{out}} = \frac{1}{\sqrt{P(t)}}\left( \cos{\left(\frac{\Theta}{2}\right)} \ket{\uparrow} + e^{\text{i}\Phi}\sin{\left(\frac{\Theta}{2}\right)}f^N_{r,s}(t)\ket{\downarrow} \right) \]
 %	and
 %	\[ P(t) = \cos^2{\left(\frac{\Theta}{2}\right)} + \sin^2{\left(\frac{\Theta}{2}\right)}\lvert f^N_{r,s}(t)\rvert^2 \]
 	Transition amplitude: $f^N_{r,s}(t) = \bra{r}e^{\text{i}H t}\ket{s}$\\
-	\begin{exampleblock}{}
+	\begin{exampleblock}{Fidelity:}
 	\setlength\abovedisplayskip{-8pt}
 	\begin{center}
-		\[ \text{Fidelity:}\mathfrak{F}(t) = \frac{1}{4\pi}\int \!\bra{\Psi_{in}}\rho_{out}\ket{\Psi_{in}} \, \mathrm{d}\Omega = \frac{\lvert f^N_{r,s}\rvert\cos{\lambda}}{3} + \frac{\lvert f^N_{r,s}\rvert^2}{6} + \frac{1}{2}\]
+		\[ \mathfrak{F}(t) = \frac{1}{4\pi}\int \!\bra{\Psi_{in}}\rho_{out}\ket{\Psi_{in}} \, \mathrm{d}\Omega = \frac{\lvert f^N_{r,s}\rvert\cos{\lambda}}{3} + \frac{\lvert f^N_{r,s}\rvert^2}{6} + \frac{1}{2}\]
 % in order to give qualitative statements it suffices to know f^N_r,s
 	\end{center}
 	\end{exampleblock}
@@ -166,7 +166,7 @@
      		\centering
      		Single spin subspace
      		\includegraphics[trim=0 0 0 0mm, width=\textwidth]{Images/adj_ring6_1}\\
-     		This is the adjacency matrix for the 6-qubit ring!
+     		\uncover<4->{This is the adjacency matrix for the 6-qubit ring!}
 		\end{column}}
 	\end{columns}
 \end{frame}
@@ -180,7 +180,7 @@
    				\item Matrix labels $-1$
    				\item Convert labels to binary
    				\item Identify rows and columns with equal number of $1$s (e.g. 1)
-   				\item Strip away all other rows and columns
+   				\item Strip off all other rows and columns
    				\item Compile matrix from rows and columns left
    				\item ${N \choose s}$ vertices (states) in graph
    			\end{itemize}
@@ -211,7 +211,7 @@
 	\begin{exampleblock}{}
 	\setlength\abovedisplayskip{-8pt}
 	\begin{center}
-		$A_{G\times H} = A_G \otimes \text{1}_{(V_H)} + \text{1}_{(V_G)} \otimes A_H$
+		$A_{G\times H} = A_G \otimes \text{1}_{\left|V_H\right|} + \text{1}_{\left|V_G\right|} \otimes A_H$
 	\end{center}
 	\end{exampleblock}
 \end{frame}
@@ -235,19 +235,24 @@
 
 \begin{frame}{Fidelity on Product Graphs}
 	\begin{align*}
-		f^{G\times H}_{N\times N'}(t) &= \left( \bra{N} \otimes \bra{N'} \right)e^{-\text{i}A_{G\times H}t} \left( \ket{1} \otimes \ket{1'} \right) \\
-		&= \left( \bra{N} \otimes \bra{N'} \right)e^{-\text{i}(A_G \otimes \text{1}_{V_H})t} e^{(\text{1}_{V_G} \otimes A_H)t} \left( \ket{1} \otimes \ket{1'} \right) \\
-		&= \sum_{k=1}^{K}\left[ \left( \bra{N} \otimes \bra{N'} \right) \ket{g'_k}\bra{g'_k}e^{-\text{i}G_k{}'t} \ket{h'}\bra{h'}e^{-\text{i}H_k{}'t} \left( \ket{1} \otimes \ket{1'} \right) \right]
+		f^{\left|V_{G\times H}\right|}_{(r,r'),(s,s')}(t) &= \left( \bra{r} \otimes \bra{r'} \right)e^{-\text{i}A_{G\times H}t} \left( \ket{s} \otimes \ket{s'} \right) \\
+		&= \left( \bra{r} \otimes \bra{r'} \right)e^{-\text{i}(A_G \otimes \text{1}_{\left|V_H\right|})t} e^{-\text{i}(\text{1}_{\left|V_G\right|} \otimes A_H)t} \left( \ket{s} \otimes \ket{s'} \right) \\
+		&= \sum_{k=1}^{K}\left[ \left( \bra{r} \otimes \bra{r'} \right) \ket{g'_k}\bra{g'_k}e^{-\text{i}G_k{}'t} \ket{h_k'}\bra{h_k'}e^{-\text{i}H_k{}'t} \left( \ket{s} \otimes \ket{s'} \right) \right]
 	\end{align*}
+	%\begin{align*}
+		%f^{G\times H}_{N\times N'}(t) &= \left( \bra{N} \otimes \bra{N'} \right)e^{-\text{i}A_{G\times H}t} \left( \ket{1} \otimes \ket{1'} \right) \\
+		%&= \left( \bra{N} \otimes \bra{N'} \right)e^{-\text{i}(A_G \otimes \text{1}_{\left|V_H\right|})t} e^{-\text{i}(\text{1}_{\left|V_G\right|} \otimes A_H)t} \left( \ket{1} \otimes \ket{1'} \right) \\
+		%&= \sum_{k=1}^{K}\left[ \left( \bra{N} \otimes \bra{N'} \right) \ket{g'_k}\bra{g'_k}e^{-\text{i}G_k{}'t} \ket{h_k'}\bra{h_k'}e^{-\text{i}H_k{}'t} \left( \ket{1} \otimes \ket{1'} \right) \right]
+	%\end{align*}
 	\begin{itemize}
-		\item $K = (V_{G\times H})$, $L = (V_G)$, $M = (V_H) \rightarrow K = L\cdot M$
+		\item $K = \left|V_{G\times H}\right|$, $L = \left|V_G\right|$, $M = \left|V_H\right| \rightarrow K = L\cdot M$
 		\item $\bra{g'_k} = \bra{g_l} \otimes \bra{e_m}$, $\bra{h'_k} = \bra{e_l} \otimes \bra{h_m}$ etc.
 		\item $G_k{}' = G_l\cdot E_m$, $H_k{}' = E_l\cdot H_m$
 		\item $(A\otimes B)(C\otimes D) = (AC)\otimes (BD)$
 	\end{itemize}
 	\begin{align*}
-		f^{G\times H}_{N\times N'}(t) &= \sum_{l=1}^L\left[ \Braket{N|g}\Braket{g|1}e^{-\text{i}Gt} \right] \sum_{m=1}^M\left[ \Braket{N'|h}\Braket{h|1'}e^{-\text{i}Ht} \right] \\
-		&= \Braket{N|e^{-\text{i}A_G t}|1}\Braket{N'|e^{-\text{i}A_H t}|1'}
+		f^{\left|V_{G\times H}\right|}_{(r,r'),(s,s')}(t) &= \sum_{l=1}^L\left[ \Braket{r|g_l}\Braket{g_l|s}e^{-\text{i}G_l t} \right] \sum_{m=1}^M\left[ \Braket{r'|h_m}\Braket{h_m|s'}e^{-\text{i}H_mt} \right] \\
+		&= \Braket{r|e^{-\text{i}A_G t}|s}\Braket{r'|e^{-\text{i}A_H t}|s'}
 	\end{align*}
 \end{frame}
 
@@ -255,13 +260,13 @@
 	\begin{exampleblock}{}
 	\setlength\abovedisplayskip{-8pt}
 	\begin{center}
-		$ f^{G\times H}_{N\times N'}(t) = f^G_N(t)\cdot f^H_{N'}(t) $
+		$ f^{\left|V_{G\times H}\right|}_{(r,r'),(s,s')}(t) = f^{\left|V_G\right|}_{r,s}(t)\cdot f^{\left|V_H\right|}_{r',s'}(t) $
 	\end{center}
 	\end{exampleblock}
 	\begin{align*}
-		f^G_N(t) &= 1 \text{ for } t = t_G \\ 
-		f^H_{N'}(t) &= 1 \text{ for } t = t_H \\ 
-		f^{G\times H}_{N\times N'}(t) &= 1 \text{ for } t = t_{G\times H}
+		f^{\left|V_G\right|}_{r,s}(t) &= 1 \text{ for } t = \tau_G \\ 
+		f^{\left|V_H\right|}_{r',s'}(t) &= 1 \text{ for } t = \tau_H \\ 
+		f^{\left|V_{G\times H}\right|}_{(r,r'),(s,s')}(t) &= 1 \text{ for } t = \tau_{G\times H}
 	\end{align*}
 	\begin{exampleblock}{}
 	\setlength\abovedisplayskip{-8pt}
@@ -274,7 +279,34 @@
 \section{Examples}
 \subsection{Spin Chains}
 \begin{frame}[t]{Spin Chains}
-	\includegraphics[trim=0 0 0 0, width=\textwidth]{Images/chain6_nolabels}
+	\includegraphics[trim=0 0 0 0, width=\textwidth]{Images/chain6_nolabels}\\
+	\[f_{N,1}^N(t) = \frac{2}{N+1}\sum_{s}^N\sin\left(\frac{\pi s}{N+1}\right)\sin\left(\frac{\pi sN}{N+1}\right)e^{-\text{i}E_s t} \]
+	\begin{itemize}
+		\item $N=2$: \,\,\,\,$f_{2,1}^2(t) = -\text{i}\sin(t)$ \,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,with $\tau_2 = \pi/2$
+		\item $N=3$: \,\,\,\,$f_{3,1}^3(t) = -\left[\sin(t/\sqrt{2})\right]^2$ with $\tau_3 = \pi/\sqrt{2}$
+		\item $N \geq 4$: \,\,\,\,$f_{N,1}^N(t) \neq 1$\,\,\, $\forall$\,\,$t$
+	\end{itemize}
+	\begin{columns}[T]
+		\begin{column}{0.5\textwidth}
+			\centering
+			\begin{exampleblock}{}
+			\setlength\abovedisplayskip{-8pt}
+			\begin{center}
+		Proof shows that $f_{N,1}^N(t) = 1$ implies $\frac{\cos\left(\frac{2\pi}{N+1}\right)}{\cos\left(\frac{\pi}{N+1}\right)} \in \mathbb{Q}$
+			\end{center}
+			\end{exampleblock}
+		\end{column}
+		\begin{column}{0.5\textwidth}
+			\centering
+        $H = \begin{pmatrix}
+			0 & 1 & 0 & 0 & 0 \\
+			1 & 0 & 1 & 0 & 0 \\
+			0 & 1 & 0 & ... & 0 \\
+			0 & 0 & ... & 0 & 1 \\
+			0 & 0 & 0 & 1 & 0 
+		\end{pmatrix}$
+		\end{column}
+	\end{columns}
 %    PST, max 3, sketch of proof, fidelity
 \end{frame}
 
@@ -318,7 +350,7 @@
 		\end{column}
 		\begin{column}{0.5\textwidth}
 			\centering
-    		%\includegraphics[trim=0mm 0 0 0mm, width=1.2\textwidth]{Images/switch_labeled}
+    		\includegraphics[trim=0mm 0 0 0mm, width=0.8\textwidth]{Images/switch_labeled}
 		\end{column}
 	\end{columns}
 %    Pic of Switch, Variety low, introduce local potentials, only affect diagonal entries, add loops to vertices (left out for clarity), realized as magnetic fields etc.
@@ -329,56 +361,56 @@
 		\begin{column}{0.6\textwidth}
    			\centering
    			\begin{itemize}
-   				\item Start: $\ket{\Psi_1} = \alpha \ket{0} + \beta \ket{1}$
-   				\item Target: $\ket{\Psi_2} = \alpha \ket{0} + \beta \ket{2}$
-   				\item $\braket{2|U(\tau)|1} = \braket{1|U(\tau)|2} \mbeq 1$
-   				\item Set $h_1 = h_2$, so that $\left[H,P_{12}\right]=0$ 
+   				\item Start: $\ket{\Psi_1} = \alpha \ket{0} + \beta \ket{2}$
+   				\item Target: $\ket{\Psi_2} = \alpha \ket{0} + \beta \ket{3}$
+   				\item $\braket{3|U(\tau)|2} = \braket{2|U(\tau)|3} \mbeq 1$
+   				\item Set $h_2 = h_3$, since $\left[H,P_{23}\right]=0$ 
    				%\[U(\tau)=\sum_{k=0}^3\ket{e_k}\bra{e_k}e^{-\text{i}E_k\tau}\]
    			\end{itemize}
 		\end{column}
 		\begin{column}{0.4\textwidth}
 			\centering
     		$H = \begin{pmatrix}
-			h_0 & 1 & 1 & 1 \\
-			1 & h_1 & 0 & 0 \\
-			1 & 0 & h_2 & 0 \\
-			1 & 0 & 0 & h_3
+			h_1 & 1 & 1 & 1 \\
+			1 & h_2 & 0 & 0 \\
+			1 & 0 & h_3 & 0 \\
+			1 & 0 & 0 & h_4
 \end{pmatrix}$
 		\end{column}
 	\end{columns}
-	\[\sum_{k=0}^3\bra{1}(P_{12}\ket{e_k})\braket{e_k|1}e^{-\text{i}E_k\tau} \mbeq 1\]\\
-   			Choose $E_k$ so they eliminate the phase introduced by $P_{12}$: $E_k \in \{0,h_1,\pm\eta h_1\}$, $\eta$ even.\\
-   			Compare $\det(H-\lambda\text{1}_4) = 0$ and $\det(\text{diag}(0,h_1,\pm\eta h_1)-\lambda\text{1}_4) = 0$\\
-   			Real roots of the resulting polynomial are solutions for $h_1$, $\tau = \frac{\pi}{h_1}$.
+	\[\sum_{k=1}^4\bra{2}(P_{23}\ket{e_k})\braket{e_k|2}e^{-\text{i}E_k\tau} \mbeq 1\]\\
+   			Choose $E_k$ so they eliminate the phase introduced by $P_{23}$: $E_k \in \{0,h_2,\pm\eta h_2\}$, $\eta$ even.\\
+   			Compare $\det(H-\lambda\text{1}_4) = 0$ and $\det(\text{diag}(0,h_2,\pm\eta h_2)-\lambda\text{1}_4) = 0$\\
+   			Real roots of the resulting polynomial are solutions for $h_2$, $\tau = \frac{\pi}{h_2}$.
 %    sketch calculation, more arms handled by renormalization, fidelities
 \end{frame}
 
 \begin{frame}{Spin Switch with more Arms}
 			\begin{itemize}
-			\item Impose further symmetry condition: $\lambda_3 = \lambda_4 = \dots = \lambda_N$
-			\item Renormalize $\ket{3}_{new}=(\ket{3}_{old} + \ket{4} + \dots + \ket{N})/\sqrt{M}$, $M=N-3$
+			\item Impose further symmetry condition: $\lambda_4 = \lambda_5 = \dots = \lambda_N$
+			\item Renormalize $\ket{4}_{new}=(\ket{4}_{old} + \ket{5} + \dots + \ket{N})/\sqrt{M}$, $M=N-3$
 			\end{itemize}
-	\begin{columns}[T]
+	\begin{columns}
 		\begin{column}{0.5\textwidth}
    			\centering
-   			%\includegraphics[trim=0mm 0 0 0mm, width=1.2\textwidth]{Images/switch4_labeled}
+   			\includegraphics[trim=0mm 0 0 0mm, width=1.2\textwidth]{Images/switch5_labeled}
 		\end{column}
 		\begin{column}{0.5\textwidth}
 			\centering
-    		$H = \begin{pmatrix}
-			h_0 & 1 & 1 & \sqrt{M} \\
-			1 & h_1 & 0 & 0 \\
-			1 & 0 & h_2 & 0 \\
-			\sqrt{M} & 0 & 0 & h_3
+    		$\tilde{H} = \begin{pmatrix}
+			h_1 & 1 & 1 & \sqrt{M} \\
+			1 & h_2 & 0 & 0 \\
+			1 & 0 & h_3 & 0 \\
+			\sqrt{M} & 0 & 0 & h_4
 \end{pmatrix}$
 		\end{column}
 	\end{columns}
 %    sketch calculation, more arms handled by renormalization, fidelities
 \end{frame}
 
-\begin{frame}{Fidelity}
+\begin{frame}[t]{Fidelity}
 	\centering
-	\includegraphics[trim=0mm 0 0 0mm, width=0.75\textwidth]{Images/switch_fidelities}
+	\includegraphics[trim=-50mm 0mm 30mm 0mm, width=0.75\textwidth]{Images/switch_fidelities}
 \end{frame}
 
 \subsection{Switch$^2$}
@@ -391,9 +423,9 @@
 		\begin{column}{0.5\textwidth}
 			\centering
     		\begin{itemize}
-    			\item Vertex $(u,v)$ needs $h_{u,v} = h_u + h_v \rightarrow $ local potentials are added
-    			\item State at vertex 5 is transferred to vertex 10 or 15 at $t = \frac{\pi}{h_1}$
-    			\item Symmetry of simple switch $\rightarrow$ transfer from 6 to 9 or 7 to 13 with same configuration
+    			\item $h_{u,v} = h_u + h_v \rightarrow $ local potentials are added
+    			\item State at vertex $(2,2)$ is transferred to vertex $(3,3)$ or $(4,4)$ at $t = \frac{\pi}{h_2}$
+    			\item Symmetry of simple switch $\rightarrow$ transfer from $(2,3)$ to $(3,2)$ or $(2,4)$ to $(4,2)$ with same configuration
     			\item Higher products similar
     		\end{itemize}
 		\end{column}
@@ -414,12 +446,12 @@
 		\begin{column}{0.5\textwidth}
 			\centering
 			Weighted graphs
-   			%\includegraphics[trim=0mm 0 0 0mm, width=\textwidth]{Images/graph_vary}
+   			\includegraphics[trim=0mm 0 0 0mm, width=0.8\textwidth]{Images/graph_vary}
 		\end{column}
 		\begin{column}{0.5\textwidth}
 			\centering
 			Weighted adjacency matrices
-   			%\includegraphics[trim=0mm 0 0 0mm, width=\textwidth]{Images/adj_vary}
+   			\includegraphics[trim=0mm 0 0 0mm, width=0.7\textwidth]{Images/adj_vary}
 		\end{column}
 	\end{columns}
 	
@@ -427,44 +459,46 @@
 \end{frame}
 
 \begin{frame}[t]{Perfect Couplings}
-	\centering
-	%\includegraphics[trim=0mm 0 0 0mm, width=\textwidth]{Images/chain_perf}
+	\includegraphics[trim=0mm 0 0 0mm, width=\textwidth]{Images/chain6_perf}
 	\begin{itemize}
-		\item Hilbert spaces of same dimensions are isomorphic
-		\item Let $J_i = \sqrt{i(N-i)}$
-		\item N qubit spin chain with $J_i \leftrightarrow$ Particle with spin $s = \frac{N-1}{2}$
+%		\item Hilbert spaces of same dimensions are isomorphic
+		\item Let $J_i = \frac{\lambda}{2}\sqrt{i(N-i)}$
+		\item N qubit spin chain with $J_i \leftrightarrow$ Particle with spin $s = \frac{N-1}{2}$ % S_x is angular momentum operator
 		\item $H=\lambda S_x \rightarrow U(t)=e^{-\text{i}\lambda t S_x}$
 		\item $\braket{N|U(t)|1} = \left( -\text{i}\sin\left(\frac{\lambda t}{2}\right) \right)^{N-1}$
 	\end{itemize}	
-	\begin{columns}[T]
-		\begin{column}{0.5\textwidth}
-			\centering
-   			$H??? = \begin{pmatrix}
-			h_0 & 1 & 1 & \sqrt{M} \\
-			1 & h_1 & 0 & 0 \\
-			1 & 0 & h_2 & 0 \\
-			\sqrt{M} & 0 & 0 & h_3
-\end{pmatrix}$
-		\end{column}
-		\begin{column}{0.5\textwidth}
-			\centering
-   			%\includegraphics[trim=0mm 0 0 0mm, width=\textwidth]{Images/adj_chain6_1_perf}
-		\end{column}
-	\end{columns}
-%    Local couplings leads to much more variety, spin chains with perfect couplings (isomorphism of hilbert spaces to spin n-something particle), not yet looked at switch
+   	\[H = \begin{pmatrix}
+	0 & \sqrt{5} & 0 & 0 & 0 & 0 \\
+	\sqrt{5} & 0 & \sqrt{8} & 0 & 0 & 0 \\
+	0 & \sqrt{8} & 0 & \sqrt{9} & 0 & 0 \\
+	0 & 0 & \sqrt{9} & 0 & \sqrt{8} & 0 \\
+	0 & 0 & 0 & \sqrt{8} & 0 & \sqrt{5} \\
+	0 & 0 & 0 & 0 & \sqrt{5} & 0 
+	\end{pmatrix}\]
+%    Local couplings leads to much more variety, spin chains with perfect couplings (isomorphism of hilbert spaces to spin n-something particle), not yet looked at switch also from flattened hypercube
 \end{frame}
 
 \subsection{Higher Excitation Subspaces}
 \begin{frame}{Higher Excitation Subspaces} %[fragile,t] for listings
-	\begin{itemize}
-		\item PST might be possible for single qubit sites
-		\item Control of more than one qubit
+	\begin{columns}
+		\begin{column}{0.5\textwidth}
+			\centering
+				\begin{itemize}
+		\item PST in larger networks%might be possible for single qubit controlled sites
+		\item Control more than one qubit
 		\begin{itemize}
 			\item Quantum error correction and fault tolerance
 		\end{itemize}
-		\item Prepare different states then send to different target sites
+		\item Prepare multiple states, send to different target sites
 	\end{itemize}
-	Calculating higher spin graphs from single spin graphs is an easy task.
+		\end{column}
+		\begin{column}{0.5\textwidth}
+			\centering
+			\includegraphics[trim=0mm 0 0 0mm, width=\textwidth]{Images/multispinex}\\
+			Calculating higher spin graphs from single spin graphs is an easy task.
+		\end{column}
+	\end{columns}
+	
 %	\begin{lstlisting}[language=Python]
 %def getEdges(self,spin=1):
 %    edges = []
@@ -484,17 +518,27 @@
 
 \subsection{Entanglement}
 \begin{frame}{Entanglement}
-    Dynamics of entanglement, teleportation for transport.
+	\includegraphics[trim=0mm 0 0 0mm, width=\textwidth]{Images/entanglement}
+	\begin{itemize}
+		\item 
+	\end{itemize}
+%    Dynamics of entanglement, teleportation for transport.
 \end{frame}
 
 \subsection{Experimental Verification}
 \begin{frame}{Experimental Verification}
-    Some experiments verify these results, Georgios paper (cm4) for two-spin up subspace analysis and great pictures, quantum dots
+	\includegraphics[trim=0mm 0 0 0mm, width=0.9\textwidth]{Images/experiment_chains}
+%    Some experiments verify these results, Georgios paper (cm4) for two-spin up subspace analysis and great pictures, quantum dots
 \end{frame}
 
 \section{Goal}
 \begin{frame}{Goal}
-    Define general constraints on hamiltonians so that the single spin subspace graph leads to a network automatically capable of perfect state transfer, hints: symmetry, EV difference quotient rational, connectivity.
+	\begin{itemize}
+		\item Framework for engineering spin chains with given properties
+		\item Define certain constraints for hamiltonian
+		\item Single spin subgraph should yield a network capable of PST
+	\end{itemize}
+%    Define general constraints on hamiltonians so that the single spin subspace graph leads to a network automatically capable of perfect state transfer, hints: symmetry, EV difference quotient rational, connectivity.
 \end{frame}
 
 \end{document}
