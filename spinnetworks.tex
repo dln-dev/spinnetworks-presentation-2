@@ -1,28 +1,30 @@
 %\documentclass{beamer}
-\usetheme{MinimalGreen/beamerthemeMinimalGreen}
-\usepackage{hyperref}
-\usepackage[utf8]{inputenc} % this is needed for german umlauts
-\usepackage[english]{babel} % this is needed for german umlauts
-\usepackage[T1]{fontenc}    % this is needed for correct output 
-                            % of umlauts in pdf
-\usepackage{graphicx}
-\usepackage{braket}
-\usepackage{listings}
-
+%\usetheme{MinimalGreen/beamerthemeMinimalGreen}
+%\usepackage{hyperref}
+%\usepackage[utf8]{inputenc} % this is needed for german umlauts
+%\usepackage[english]{babel} % this is needed for german umlauts
+%\usepackage[T1]{fontenc}    % this is needed for correct output 
+%                            % of umlauts in pdf
+%\usepackage{graphicx}
+%\usepackage{braket}
+%\usepackage{listings}
+%
 % "mbeq": must be equal
-\newcommand{\mbeq}{\overset{!}{=}}
+%\newcommand{\mbeq}{\overset{!}{=}}
 
 \begin{document}
 
+\mode<presentation>{
 \title{Spin Networks for Perfect State Transfer}
 \author{dln-dev}
-\date{5. April 2016}
+\date{6. April 2016}
 
 \frame{\titlepage}
+}
 
 \section{Introduction}
 \subsection{Motivation}
-\begin{frame}{Hardware}
+\mode<presentation>{\begin{frame}{Hardware}\label{Hardware}
 	\begin{columns}[T]
 		\begin{column}{0.33\textwidth}
 			\centering
@@ -40,15 +42,19 @@
      		\includegraphics[trim=0 0 0 -20mm, width=\textwidth]{Images/computing}
 		\end{column}}
 	\end{columns}
-\end{frame}
+\end{frame}}
 
-Quantum processors work on quantum registers. These are highly controlled regions with an intricate machinery of manipulators controlling the state of the qubit itself (preparation/initialization) as well as the qubit couplings. These controls will introduce quite some noise into the system which makes it necessary to separate controlled parts of the system by less controlled, mostly passive parts. In these parts, state transfer has to happen with acceptable fidelity.\\
-Quantum computers themselves might consist of several quantum processors working in parallel, similar to present aproaches to computing using massive parallelization for increased computation power.\\
-The first feasible real world implementation of a public-access quantum computer would probably follow a cloud-like model, where a huge computing facility would provide access to several available quantum computers via a web interface. The received states would need a means of transportation to available sites realizing some form of load balancing.\\
-One might question, though, in how far these approaches are different at all. Many proposals for realizable quantum computers suggest distributed registers, sometimes containing only as few as two controllable qubits separated by some form of state transfer capable spacers. In a setting like this, splitting and distributing a computation to certain registers solves all the above mentioned problems at once. Different register regions are chosen for different processes, regardless of spacial distance. Yet, these registers would need connectivity in the form of state transfer capable network. 
+\begin{center}
+	\includeslide{Hardware}
+\end{center}
+
+\noindent Quantum processors work on quantum registers. These are highly controlled regions with an intricate machinery of manipulators controlling the state of the qubit itself (preparation/initialization) as well as the qubit couplings. These controls will introduce noise into the system which makes it necessary to separate controlled parts of the system by less controlled, mostly passive parts. In these parts, state transfer has to happen with acceptable fidelity.\par
+Quantum computers themselves might consist of several quantum processors working in parallel, similar to present approaches to computing using massive parallelization for increased computation power.\par
+The first feasible real world implementation of a public-access quantum computer would probably follow a cloud-like model, where a huge computing facility provides access to several available quantum computers via a web interface. The received states would need a means of transportation to available sites, realizing a form of load balancing.\par
+One might question in how far these situations are different at all. Many proposals for realizable quantum computers suggest distributed registers, sometimes containing only as few as two controllable qubits separated by some form of state transfer capable spacers. In such a setting, splitting and distributing a computation to certain registers solves all the above mentioned problems at once. Different register regions are chosen for different processes, regardless of spacial distance. Yet, these registers would require connectivity in the form of a state transfer capable network. 
 
 \subsection{Requirements}
-\begin{frame}{Requirements}
+\mode<presentation>{\begin{frame}{Requirements}\label{Requirements}
 	\begin{itemize}
 		\item Separation of highly controlled regions
 		\item Spacers
@@ -62,13 +68,17 @@ One might question, though, in how far these approaches are different at all. Ma
 	
 	$\rightarrow$ Spin networks!
 %Registers are highly controlled regions (gates, ...), probably need separation, spacers need to be capable of state transfer -> spins, control free region: permanent, fixed interactions between spins, natural dynamics (initialize, wait, read); For now: only single qubits control at each site, homogenous constant couplings, PST (Explain!), spin networks instead so no transformation is needed.
-\end{frame}
+\end{frame}}
 
-The aforementioned requirements suggest a medium similar to what the quantum registers are made of, so that no conversion, e.g. from solid state registers to photons is necessary. We will restrict ourselves here to perfect state transfer, fixed interactions and natural dynamics. Control over these spacers is then reduced to initialization, initial state transfer (perhaps in the form of a SWAP gate operation) and procession of the received qubit. At each site, only a single qubit shall be controlled. Other options will be explored at a later time. \\
-A natural suggestion for a realization would be networks of two-level systems comprising qubits themselves. Therefore, we will investigate the feasability of spin networks as quantum state transfer enablers. This is called spin chain engineering.
+\begin{center}
+	\includeslide{Requirements}
+\end{center}
+
+\noindent The aforementioned requirements suggest a medium similar to what quantum registers are made of. Thus, no conversion, e.g. from solid state registers to photons is necessary. We will restrict ourselves here to perfect state transfer, fixed interactions and natural dynamics. Control over these spacers is then reduced to initialization, initial state transfer (perhaps in the form of a SWAP gate operation) and processing of the received qubit. At each site, only a single qubit shall be controlled. Other options will be explored at a later time. \par
+A natural suggestion for a realization would be networks of two-level systems comprising qubits themselves. Therefore, we will investigate the feasibility of spin networks as quantum state transfer enablers. This is called spin chain engineering.
 
 \subsection{Model}
-\begin{frame}[t]{Model}	
+\mode<presentation>{\begin{frame}[t]{Model}\label{Model}	
 	\begin{exampleblock}{}
 	\setlength\abovedisplayskip{-8pt}
 	\begin{center}
@@ -83,14 +93,18 @@ A natural suggestion for a realization would be networks of two-level systems co
 		\item Eigenvalues: $ E_k = 2\cos\left(\frac{\pi k}{N+1}\right)$
 	\end{itemize}
 %    Show complete Heisenberg model (no local potentials), explain terms, why no z coupling etc., commutes with total z spin, then XY model, what do states look like?
-\end{frame}
+\end{frame}}
 
-The model we are using is a reduced version of the Heisenberg model. We assume x- and y-component spin interaction only and omit z-interaction completely for computability reasons. z-interactions do not pose problems in principal right now, since we will look at single spin excitations only for now. Further, we will assume homogeneous (same coupling between every qubit) and isotropic couplings (same coupling for x- and y-component respectively). This is called the XX-model. Other configurations are no principal hindrance, but these rather loose assumptions make an introduction to this topic much easier.\\
-The total z-spin operator commutes with the hamiltonian. Therefore, a common set of eigenvectors exists. The hamiltonian consequently can be decomposed into several smaller subspaces each belonging to a specific eigenvalue of the total z-spin operator. The dynamics of a state belonging to one such subspace will therefore stay in the specific subspace. A state belonging to the single spin subspace will evolve into a superposition of single spin states.\\
-The eigenstates can be calculated by diagonalizing the hamiltonian or analyzing states on a ferromagnetic chain. Low energetic excited spin waves are superpositions of all single spin up states (assuming periodic boundary conditions at the moment). Sharply localized single spin states can be constructed as superpositions of these spin wave states. These are sometimes called twisted-w states in quantum information science. The term seems to stem from Fourier analysis of radio signals.
+\begin{center}
+	\includeslide{Model}
+\end{center}
+
+\noindent The model we are using is a reduced Heisenberg model. We assume x- and y-component interaction only and omit z-interaction completely for computability reasons. z-interactions do not pose problems in principal, since we will look at single spin excitations only for now. Further, we will assume homogeneous (same coupling between every qubit) and isotropic couplings (same coupling constant for x- and y-component respectively). This is called the XX-model. Other configurations are no principal hindrance, but these rather loose assumptions make an introduction to this topic much easier.\par
+The total z-spin operator commutes with the hamiltonian. Therefore, a common set of eigenvectors exists. The hamiltonian consequently can be decomposed into several subspaces each belonging to a specific eigenvalue of the total z-spin operator. The dynamics of a state belonging to one such subspace will therefore stay in the specific subspace. A state belonging to the single spin subspace will evolve into a superposition of single spin states.\par
+The eigenstates can be calculated by diagonalizing the hamiltonian or analyzing states on a ferromagnetic chain. Low energetic spin waves are superpositions of all single spin up states (assuming periodic boundary conditions at the moment). Sharply localized single spin states can then be constructed as superpositions of these spin wave states. These are sometimes called twisted-w states in quantum information science. The term seems to stem from Fourier analysis of radio signals.
 
 \subsection{Math setup}
-\begin{frame}{Math setup}
+\mode<presentation>{\begin{frame}{Math setup}\label{Mathsetup}
 	\begin{description}
 	\item [Ground state of ferromagnetic spin-$\frac{1}{2}$ chain:] \[ \ket{\uparrow}_1 \otimes \ket{\uparrow}_2 \otimes \dots \otimes \ket{\uparrow}_N = \ket{\uparrow_1\uparrow_2\dots\uparrow_N} := \ket{0} \]
 	\item [Excitation operator $\sigma^- = \frac{1}{2}\left(\sigma^x - \text{i}\sigma^y\right)$:] \[ \text{1}_1 \otimes \text{1}_2 \otimes \dots \otimes \text{1}_{s-1} \otimes \sigma^- \otimes \text{1}_{s+1} \otimes \dots \otimes \text{1}_N := \sigma^-_s \]
@@ -98,18 +112,22 @@ The eigenstates can be calculated by diagonalizing the hamiltonian or analyzing 
 	\item [Single spin superposition:] Prepare spin at $s$ as $\alpha\ket{\uparrow}_s + \beta\ket{\downarrow}_s \rightarrow$ \[ \ket{\Psi} := \alpha\ket{0} + \beta\ket{s} \]
 	\end{description}
 %    Explain numbers as kets, superpositions, graphs, later binary scheme for graphs, adjacency matrices and correspondence to hamiltonian, fidelity.
-\end{frame}
+\end{frame}}
 
-In short, states as well as operators are contructed by the tensor product, in the latter case involving many unity matrices of dimension 2. There is a direct correspondence of the order of operations and the numbering of spins in the considered system.
+\begin{center}
+	\includeslide{Mathsetup}
+\end{center}
 
-\begin{frame}{Perfect state transfer}
+\noindent In short, states as well as operators are constructed by the tensor product, in the latter case involving many identity matrices of dimension 2. There is a direct correspondence of the order of operations and the numbering of spins in the considered system.
+
+\mode<presentation>{\begin{frame}{Perfect state transfer}\label{PST}
 %	In general, target state will evolve into a mixed state:\\
 	\[ \ket{\Psi_{in}} = \cos{\left(\frac{\Theta}{2}\right)} \ket{0} + e^{\text{i}\Phi}\sin{\left(\frac{\Theta}{2}\right)}\ket{s} \]
 	\[ \ket{\Psi_{out}} = \frac{1}{\sqrt{P(t)}}\left( \cos{\left(\frac{\Theta}{2}\right)} \ket{0} + e^{\text{i}\Phi}\sin{\left(\frac{\Theta}{2}\right)}f^N_{r,s}(t)\ket{r} \right) \]
 	\[ \rho_{out} = P(t)\ket{\Psi_{out}}\bra{\Psi_{out}} + \left( 1-P(t) \right)\ket{\uparrow}\bra{\uparrow} \]
 %	and
 %	\[ P(t) = \cos^2{\left(\frac{\Theta}{2}\right)} + \sin^2{\left(\frac{\Theta}{2}\right)}\lvert f^N_{r,s}(t)\rvert^2 \]
-	Transition amplitude: $f^N_{r,s}(t) = \bra{r}e^{\text{i}H t}\ket{s}$\\
+	Transition amplitude: $f^N_{r,s}(t) = \bra{r}e^{-\text{i}H t}\ket{s}$\\
 	\begin{exampleblock}{Fidelity:}
 	\setlength\abovedisplayskip{-8pt}
 	\begin{center}
@@ -117,13 +135,17 @@ In short, states as well as operators are contructed by the tensor product, in t
 % in order to give qualitative statements it suffices to know f^N_r,s
 	\end{center}
 	\end{exampleblock}
-\end{frame}
+\end{frame}}
 
-In general, the target qubit will evolve into a mixed state. The expression for the state description is easily calculated by applying the time development operator, expressed as its eigenvector-eigenvalue decomposition, to the pure state. Since there is no development of the ground state involved (this is the only state in the ground state subspace), there is only a term influencing the excited part of the state. This term in general will have an absolute less than one. The state therefore will in general not directly lie on the Bloch sphere, but inside it as a mixed state.\\
-The notion of fidelity comes from the density matrix associated with the target system averaged over all pure input states. It turns out, however, that for the fidelity of state transfer to equal unity, it is enough to ensure the absolute of the transition amplitude to be unity. The overall phase in form of the cosine can be neutralized by an overall magnetic field. We will restrict ourselves here to ensuring the unit absolute of the transition amplitude.\\
-There are other forms of quantisizing the quality of state transfer such as concurrence or von-Neumann entropy. The fidelity as defined here is the most widely adopted.
+\begin{center}
+	\includeslide{PST}
+\end{center}
 
-\begin{frame}[t]{Graphs}
+\noindent Generally the target qubit will evolve into a mixed state. The expression for the state description is easily calculated by applying the time development operator, expressed as its eigenvector-eigenvalue decomposition, to the pure state. Since there is no development of the ground state involved (this is the only state in the ground state subspace), there is only a term influencing the excited part of the state. This term in general will have an absolute less than one. The state therefore will in general not directly lie on the Bloch sphere, but inside it as a mixed state.\par
+The notion of fidelity stems from the density matrix $\rho_{out}$ associated with the target system state $\Psi_{out}$ averaged over all pure input states $\Psi_{in}$. It turns out, however, that for the fidelity of state transfer to equal unity, it is enough to ensure the absolute of the transition amplitude $f^N_{r,s}$ to be unity. The overall phase in form of the cosine can be neutralized by an overall magnetic field. We will therefore restrict ourselves here to ensuring the unit absolute of the transition amplitude.\par
+There are other options to quantify the quality of state transfer such as concurrence or von-Neumann entropy. The fidelity as defined here is the most widely adopted.
+
+\mode<presentation>{\begin{frame}[t]{Graphs}\label{Graphs}
 	\begin{exampleblock}{}
 	\setlength\abovedisplayskip{-8pt}
 	\begin{center}
@@ -137,11 +159,15 @@ There are other forms of quantisizing the quality of state transfer such as conc
 %	is a subset of the set of all unordered pairs of vertices in $V$.
 	Example: $V = \{1,2,3\}, E = \{\{1,2\},\{2,3\}\}$
 		\includegraphics[trim=0 0 0 -5mm, width=\textwidth]{Images/chain3}
-\end{frame}
+\end{frame}}
 
-Graphs are great tools for not only visualizing, but also analyzing spin networks in general. Vertices symbolize qubit sites, edges connect qubits between which exchange interaction occurs. As such, edges have to be undirected and unique, since exchange interaction is symmetric. It is natural therefore to define edges as unordered pairs of vertices. Note that the vertices inside edges do not necessarily have to be different. These would amount to self-interaction. Their representation in graphs would be self-loops at the respective vertices.
+\begin{center}
+	\includeslide{Graphs}
+\end{center}
 
-\begin{frame}[t]{Adjacency Matrices}
+\noindent Graphs are great tools for not only visualizing, but also analyzing spin networks in general. Vertices symbolize qubit sites, edges connect qubits between which exchange interaction occurs. As such, edges have to be unique and undirected, since exchange interaction is symmetric. It is natural therefore to define edges as unordered pairs of vertices. Note that the vertices inside edges do not necessarily have to be different. These would amount to self-interaction. Their representation in graphs would be self-loops at the respective vertices.
+
+\mode<presentation>{\begin{frame}[t]{Adjacency matrices}\label{AdjacencyMatrices}
 	\begin{exampleblock}{}
 	\setlength\abovedisplayskip{-8pt}
 	\begin{center}
@@ -168,12 +194,16 @@ Graphs are great tools for not only visualizing, but also analyzing spin network
     		\includegraphics[trim=0 0 0 18mm, width=0.6\textwidth]{Images/adj_ring6_2}
 		\end{column}
 	\end{columns}
-\end{frame}
+\end{frame}}
 
-An algebraic treatment of graphs is made possible by adjacency matrices. These encode the edges of a graph by interpreting rows and columns as vertices. If there is a connection between qubit 1 and 2, there will be a 1 in row 1, second column or zero  otherwise. Edges are unordered sets and the adjacency matrix therefore symmetric. The consequence of this is that there exists a set of orthogonal eigenvectors which will be important in a proof later on.\\
+\begin{center}
+	\includeslide{AdjacencyMatrices}
+\end{center}
+
+\noindent An algebraic treatment of graphs is made possible by adjacency matrices. These encode the edges of a graph by representing vertices as rows and columns. If there is a connection between qubit 1 and 2, there will be a 1 in row 1, second column or zero  otherwise. Edges are unordered sets and the adjacency matrix therefore is symmetric. The consequence of this is that there exists a set of orthogonal eigenvectors which will be important in a proof later on.\par
 The examples here are the adjacency matrices of a 3-qubit chain and the 2-spin subspace representation graph of a 6-qubit ring.
 
-\begin{frame}{Correspondence to Hamiltonians}
+\mode<presentation>{\begin{frame}{Correspondence to hamiltonians}\label{Correspondence}
 	\begin{columns}[T]
 		\begin{column}{0.33\textwidth}
 			\centering
@@ -192,13 +222,13 @@ The examples here are the adjacency matrices of a 3-qubit chain and the 2-spin s
      		\uncover<4->{This is the adjacency matrix for the 6-qubit ring!}
 		\end{column}}
 	\end{columns}
-\end{frame}
+\end{frame}}
 
-\begin{frame}{How to identify subspaces}
+\mode<presentation>{\begin{frame}{How to identify subspaces}\label{IdentifySubspaces}
 	\begin{columns}[T]
 		\begin{column}{0.5\textwidth}
 			\centering
-   			Recipe:
+%   			Recipe
    			\begin{itemize}
    				\item Matrix labels $-1$
    				\item Convert labels to binary
@@ -210,15 +240,19 @@ The examples here are the adjacency matrices of a 3-qubit chain and the 2-spin s
    		\end{column}
 		\begin{column}{0.5\textwidth}
 			\centering
-    		Graph
+%    		Graph
     		\includegraphics[trim=0 0 0 0mm, width=\textwidth]{Images/ring6_hamilton_graph3d_alt}
 		\end{column}
 	\end{columns}
-\end{frame}
+\end{frame}}
 
-Hamiltonians are adjacency matrices. This is due to how they are built up by the Pauli matrices. Next neighbours are represented by Pauli matrices with neighbouring indices, creating an entry of 1 in case there is a connection. This also causes (in the case of chains) an ordering that enables one to easily identify rows and columns belonging to certain subspaces by using binary numbers. A 1 in this binary representation corresponds to an excited spin at the location in the chain corresponding to the location in the bitstring. All rows and columns represented as a binary number with a fixed number of 1s therefore belong to the subspace of z-spin equal to the number of 1s.
+\begin{center}
+	\includeslide{IdentifySubspaces}
+\end{center}
 
-\begin{frame}[t]{Cartesian Product of Graphs}
+\noindent Hamiltonians are adjacency matrices. This is due to how they are built up by the Pauli matrices. Next neighbours are represented by products of Pauli matrices with neighbouring indices, creating an entry of 1 in case there is a connection. This also causes (in the case of chains) an ordering that enables one to easily identify rows and columns belonging to certain subspaces by using binary numbers. A 1 in this binary representation corresponds to an excited spin at the location in the chain corresponding to its location in the bitstring. All rows and columns represented as a binary number with a fixed number of 1s therefore belong to the subspace of z-spin equal to the number of 1s.
+
+\mode<presentation>{\begin{frame}[t]{Cartesian product of graphs}\label{GraphProduct}
 	\begin{exampleblock}{}
 	\setlength\abovedisplayskip{-8pt}
 	\begin{center}
@@ -239,9 +273,9 @@ Hamiltonians are adjacency matrices. This is due to how they are built up by the
 		$A_{G\times H} = A_G \otimes \text{1}_{\left|V_H\right|} + \text{1}_{\left|V_G\right|} \otimes A_H$
 	\end{center}
 	\end{exampleblock}
-\end{frame}
+\end{frame}}
 
-\begin{frame}{Examples of Product Graphs}
+\mode<presentation>{\begin{frame}{Examples of product graphs}\label{GraphProductExamples}
 	\begin{columns}[T]
 		\begin{column}{0.33\textwidth}
 			\centering
@@ -256,11 +290,15 @@ Hamiltonians are adjacency matrices. This is due to how they are built up by the
      		\includegraphics[trim=30mm 0 0 0, width=\textwidth]{Images/graphprod_switch_square}
 		\end{column}}
 	\end{columns}
-\end{frame}
+\end{frame}}
 
-Higher order graphs can be built by using the cartesian product of graphs, or graph product. Note that this is not a tensor product, which can be defined for graphs as well. Vertices of the product graph are unordered pairs of underlying simple graph vertices. The graph product is therefore commutative. The edge set consists of unordered pairs of unordered vertex pairs in which either the first vertices or the second vertices are connected in one of the original graphs. In other words, if graph G has 4 vertices one would take 4 copies of graph H and connect the vertices in such a way, that these connections form G graphs. 
+\begin{center}
+	\includeslide{GraphProductExamples}
+\end{center}
 
-\begin{frame}{Fidelity on Product Graphs}
+\noindent Higher order graphs can be built by using the cartesian product of graphs, or graph product. Note that this is not a tensor product, which can be defined for graphs as well. Vertices of the product graph are all ordered pairs of underlying simple graph vertices. The graph product is therefore commutative. The edge set consists of unordered pairs of unordered vertex pairs in which either the first vertices or the second vertices are connected in one of the original graphs. In other words, if graph G has 4 vertices one would take 4 copies of graph H and connect the vertices in such a way, that these connections form G graphs. 
+
+\mode<presentation>{\begin{frame}{Fidelity on product graphs}\label{GraphProductFidelity}
 	\begin{align*}
 		f^{\left|V_{G\times H}\right|}_{(r,r'),(s,s')}(t) &= \left( \bra{r} \otimes \bra{r'} \right)e^{-\text{i}A_{G\times H}t} \left( \ket{s} \otimes \ket{s'} \right) \\
 		&= \left( \bra{r} \otimes \bra{r'} \right)e^{-\text{i}(A_G \otimes \text{1}_{\left|V_H\right|})t} e^{-\text{i}(\text{1}_{\left|V_G\right|} \otimes A_H)t} \left( \ket{s} \otimes \ket{s'} \right) \\
@@ -281,9 +319,9 @@ Higher order graphs can be built by using the cartesian product of graphs, or gr
 		f^{\left|V_{G\times H}\right|}_{(r,r'),(s,s')}(t) &= \sum_{l=1}^L\left[ \Braket{r|g_l}\Braket{g_l|s}e^{-\text{i}G_l t} \right] \sum_{m=1}^M\left[ \Braket{r'|h_m}\Braket{h_m|s'}e^{-\text{i}H_mt} \right] \\
 		&= \Braket{r|e^{-\text{i}A_G t}|s}\Braket{r'|e^{-\text{i}A_H t}|s'}
 	\end{align*}
-\end{frame}
+\end{frame}}
 
-\begin{frame}[t]{Fidelity on Product Graphs}
+\mode<presentation>{\begin{frame}[t]{Fidelity on product graphs}\label{GraphProductFidelitySummary}
 	\begin{exampleblock}{}
 	\setlength\abovedisplayskip{-8pt}
 	\begin{center}
@@ -291,9 +329,9 @@ Higher order graphs can be built by using the cartesian product of graphs, or gr
 	\end{center}
 	\end{exampleblock}
 	\begin{align*}
-		f^{\left|V_G\right|}_{r,s}(t) &= 1 \text{ for } t = \tau_G \\ 
-		f^{\left|V_H\right|}_{r',s'}(t) &= 1 \text{ for } t = \tau_H \\ 
-		f^{\left|V_{G\times H}\right|}_{(r,r'),(s,s')}(t) &= 1 \text{ for } t = \tau_{G\times H}
+		\left|f^{\left|V_G\right|}_{r,s}(t)\right| &= 1 \text{ for } t = \tau_G \\ 
+		\left|f^{\left|V_H\right|}_{r',s'}(t)\right| &= 1 \text{ for } t = \tau_H \\ 
+		\left|f^{\left|V_{G\times H}\right|}_{(r,r'),(s,s')}(t)\right| &= 1 \text{ for } t = \tau_{G\times H}
 	\end{align*}
 	\begin{exampleblock}{}
 	\setlength\abovedisplayskip{-8pt}
@@ -301,14 +339,18 @@ Higher order graphs can be built by using the cartesian product of graphs, or gr
 		$ \text{iff }\frac{t_G}{t_H} \in \mathbb{Q}$ %\rightarrow t_{G\times H} = LCM(t_G,t_H) $
 	\end{center}
 	\end{exampleblock}
-\end{frame}
+\end{frame}}
 
-The fidelity on product graphs shows a product structure. The proof exploits the additive structure of adjacency matrices of product graphs. One simply expresses the transition amplitude of the product graph in terms of the underlying graphs. The eigenvectors and eigenvalues of the original graph adjacency matrices times the identity matrix are simply the (tensor) products of each respective operators eigenvectors and eigenvalues. Applying the cartesian product reduction identity 4 times and splitting the sums reveals that the transition amplitude of state transfer on a product graph is the product of the transition amplitudes for state transfer on the underlying graphs.\\
+\begin{center}
+	\includeslide{GraphProductFidelitySummary}
+\end{center}
+
+\noindent The fidelity on product graphs exhibits a product structure. The proof exploits the additive structure of adjacency matrices of product graphs. One simply expresses the transition amplitude of the product graph in terms of the underlying graphs eigenvectors and eigenvalues. The eigenvectors and eigenvalues of the original graph adjacency matrices times the identity matrix are simply the (tensor) products of each respective operators eigenvectors and eigenvalues. Applying the cartesian product reduction identity 4 times and splitting the sums reveals that the transition amplitude of state transfer on a product graph is the product of the transition amplitudes for state transfer on the underlying graphs.\par
 Having a unity transition amplitude requires unit transfer times of underlying graphs to form rational numbers when divided. This is rarely the case. The obvious exclusion is the product of graphs with themselves. In this case, perfect state transfer is automatically achieved in exactly the same time. This means more distance can be covered by connecting qubits in a way so that they resemble the product graph of a simple PST graph with itself.
 
 \section{Examples}
-\subsection{Spin Chains}
-\begin{frame}[t]{Spin Chains}
+\subsection{Spin chains}
+\mode<presentation>{\begin{frame}[t]{Spin chains}\label{SpinChains}
 	\includegraphics[trim=0 0 0 0, width=\textwidth]{Images/chain6_nolabels}\\
 	\[f_{N,1}^N(t) = \frac{2}{N+1}\sum_{s}^N\sin\left(\frac{\pi s}{N+1}\right)\sin\left(\frac{\pi sN}{N+1}\right)e^{-\text{i}E_s t} \]
 	\begin{itemize}
@@ -338,10 +380,10 @@ Having a unity transition amplitude requires unit transfer times of underlying g
 		\end{column}
 	\end{columns}
 %    PST, max 3, sketch of proof, fidelity
-\end{frame}
+\end{frame}}
 
-\subsection{Spin Networks}
-\begin{frame}[t]{Spin Networks}
+\mode<presentation>{\subsection{Spin networks}\label{SpinNetworks}
+\begin{frame}[t]{Spin networks}
 	\begin{columns}[T]
 		\begin{column}{0.33\textwidth}
 			\centering
@@ -358,13 +400,17 @@ Having a unity transition amplitude requires unit transfer times of underlying g
 		\end{column}
 	\end{columns}
 %    Spin chains too short -> more complex networks, explain kronecker product of graphs, sketch proof for fidelity decomposition, hypercubes, flattened versions.
-\end{frame}
+\end{frame}}
 
-Spin structures can be examined by building the expression for the transition amplitude and seeing whether this can equal 1 for some parameters. It turns out that for a simple spin chain, the transition amplitude can only ever be 1 if the chains consists of either 2 or 3 qubits. Higher lenghts are excluded by showing that the ratios of eigenvalue differences of the adjacency matrix/hamiltonian must form rational numbers. This can be analyzed with algebraic numbers.\\
-These chains are very short. As explained in the last chapter, the graph product helps covering larger distances. By exploiting symmetry, different sites can be connected at the same time. Connectable sites are antipodal on the graph.
+\begin{center}
+	\includeslide{SpinChains}
+\end{center}
 
-\subsection{Spin Switch}
-\begin{frame}[t]{Spin Switch}
+\noindent Spin structures can be examined by building the expression for the transition amplitude and seeing whether it equals 1 for some parameters. It turns out that for a simple spin chain, the transition amplitude can only ever be 1 if the chains consist of either 2 or 3 qubits. Higher lengths are excluded by showing that the ratios of eigenvalue differences of the adjacency matrix/hamiltonian must form rational numbers. This can be analyzed with algebraic numbers.\par
+These chains are very short. As explained in the last chapter, the graph product helps covering larger distances. By exploiting symmetry, different sites can be connected at the same time. Connectible sites are antipodal on the graph.
+
+\subsection{Spin switch}
+\mode<presentation>{\begin{frame}[t]{Spin switch}\label{SpinSwitch}
 	\begin{exampleblock}{}
 	\setlength\abovedisplayskip{-8pt}
 	\begin{center}
@@ -387,15 +433,15 @@ These chains are very short. As explained in the last chapter, the graph product
 		\end{column}
 	\end{columns}
 %    Pic of Switch, Variety low, introduce local potentials, only affect diagonal entries, add loops to vertices (left out for clarity), realized as magnetic fields etc.
-\end{frame}
+\end{frame}}
 
-\begin{frame}{Spin Switch}
+\mode<presentation>{\begin{frame}{Spin switch}\label{SpinSwitchCalc}
 	\begin{columns}[T]
 		\begin{column}{0.6\textwidth}
    			\centering
    			\begin{itemize}
-   				\item Start: $\ket{\Psi_1} = \alpha \ket{0} + \beta \ket{2}$
-   				\item Target: $\ket{\Psi_2} = \alpha \ket{0} + \beta \ket{3}$
+   				\item Source: $\ket{\Psi_2} = \alpha \ket{0} + \beta \ket{2}$
+   				\item Target: $\ket{\Psi_3} = \alpha \ket{0} + \beta \ket{3}$
    				\item $\braket{3|U(\tau)|2} = \braket{2|U(\tau)|3} \mbeq 1$
    				\item Set $h_2 = h_3$, since $\left[H,P_{23}\right]=0$ 
    				%\[U(\tau)=\sum_{k=0}^3\ket{e_k}\bra{e_k}e^{-\text{i}E_k\tau}\]
@@ -416,11 +462,11 @@ These chains are very short. As explained in the last chapter, the graph product
    			Compare $\det(H-\lambda\text{1}_4) = 0$ and $\det(\text{diag}(0,h_2,\pm\eta h_2)-\lambda\text{1}_4) = 0$\\
    			Real roots of the resulting polynomial are solutions for $h_2$, $\tau = \frac{\pi}{h_2}$.
 %    sketch calculation, more arms handled by renormalization, fidelities
-\end{frame}
+\end{frame}}
 
-\begin{frame}{Spin Switch with more Arms}
+\mode<presentation>{\begin{frame}{Spin switch with more arms}\label{SpinSwitchMoreArms}
 			\begin{itemize}
-			\item Impose further symmetry condition: $\lambda_4 = \lambda_5 = \dots = \lambda_N$
+			\item Impose further symmetry condition: $h_4 = h_5 = \dots = h_N$
 			\item Renormalize $\ket{4}_{new}=(\ket{4}_{old} + \ket{5} + \dots + \ket{N})/\sqrt{M}$, $M=N-3$
 			\end{itemize}
 	\begin{columns}
@@ -439,15 +485,23 @@ These chains are very short. As explained in the last chapter, the graph product
 		\end{column}
 	\end{columns}
 %    sketch calculation, more arms handled by renormalization, fidelities
-\end{frame}
+\end{frame}}
 
-\begin{frame}[t]{Fidelity}
+\mode<presentation>{\begin{frame}[t]{Fidelity}\label{SpinSwitchFidelity}
 	\centering
-	\includegraphics[trim=-20mm 0mm 30mm 0mm, width=0.7\textwidth]{Images/switch_fidelities}
-\end{frame}
+	\includegraphics[trim=-50mm 0mm 30mm 0mm, width=0.75\textwidth]{Images/switch_fidelities}
+\end{frame}}
+
+\begin{center}
+	\includeslide{SpinSwitch}
+\end{center}
+
+\noindent It is possible to achieve greater variety in what is possible by incorporating local potentials in the model. These might be local magnetic fields, varied slightly by offset fields. In adjacency matrices, these potentials are represented by diagonal elements and form self-loops in graphs. These are omitted for clarity.\par
+A first example of what can be achieved with local potentials are spin switches. These are star networks, enabling the input site to decide what arm of the star to transport a state to. The switching is done by applying an offset field, changing the local potentials at each site by a small value. The calculation of these values is an inverse eigenvalue problem. The eigenvalue spectrum is chosen such as to compensate for the eigenvalues of the permutation operator introduced into the transition amplitude.\par
+The fields for switches with more arms can easily be calculated by renormalizing every outgoing qubit except for the target site. This way, the hamiltonian will still be 4-dimensional and the calculation is still possible analytically.
 
 \subsection{Switch$^2$}
-\begin{frame}{Switch$^2$}
+\mode<presentation>{\begin{frame}{Switch$^2$}\label{SwitchSquared}
 	\begin{columns}[T]
 		\begin{column}{0.5\textwidth}
 			\centering
@@ -464,15 +518,17 @@ These chains are very short. As explained in the last chapter, the graph product
 		\end{column}
 	\end{columns}
 %    graph product works with local potentials as well, added at each site, symmetries, more arms.
-\end{frame}
+\end{frame}}
 
-It is possible to achieve greater variety in what is possible by introducing local potentials into the model. These might be local magnetic fields, varied slightly by offset fields. In adjacency matrices, these potentials are represented by diagonal elements and form self-loops in graphs. These are omitted for clarity.\\
-A first example of what can be achieved with local potentials are spin switches. These are star networks, enabling the input site to decide what arm of the star to transport a state to. The switching is done by applying an offset field, changing the local potentials at each site by a small value. The calculation of these values is an inverse eigenvalue problem. The eigenvalue spectrum is chosen such as to compensate for the eigenvalues of the permutation operator introduced into the transition amplitude.\\
-The graph product of this switching network with itself yields a higher order switchable network. The participating nodes are identified by building pairs of the nodes involved in the simple switch graph. The input node is ${2,2}$, able to switch to either ${3,3}$ or ${4,4}$. Using the simple graph's symmetry, the same magnetic configuration enables switching from ${2,3}$ to ${3,2}$ or ${2,4}$ to ${4,2}$ respectively. This graph connects several nodes at the same time. Higher graphs or product graphs of switches with more arms function similarly.
+\begin{center}
+	\includeslide{SwitchSquared}
+\end{center}
+
+\noindent The graph product of the switch network with itself yields a higher order switchable network. The participating nodes are identified by building pairs of the nodes involved in the simple switch graph. The input node is $(2,2)$, able to switch to either $(3,3)$ or $(4,4)$. Using the simple graph's symmetry, the same magnetic configuration enables switching from $(2,3)$ to $(3,2)$ or $(2,4)$ to $(4,2)$ respectively. This graph connects several nodes at the same time. Higher graphs or product graphs of switches with more arms function similarly.
 
 \section{Roadmap}
-\subsection{Varying Couplings}
-\begin{frame}[t]{Varying Couplings}
+\subsection{Varying couplings}
+\mode<presentation>{\begin{frame}[t]{Varying couplings}\label{VaryingCouplings}
 	\begin{exampleblock}{}
 	\setlength\abovedisplayskip{-8pt}
 	\begin{center}
@@ -493,9 +549,9 @@ The graph product of this switching network with itself yields a higher order sw
 	\end{columns}
 	
 %    Local couplings leads to much more variety, spin chains with perfect couplings (isomorphism of hilbert spaces to spin n-something particle), not yet looked at switch
-\end{frame}
+\end{frame}}
 
-\begin{frame}[t]{Perfect Couplings}
+\mode<presentation>{\begin{frame}[t]{Perfect couplings}\label{PerfectCouplings}
 	\includegraphics[trim=0mm 0 0 0mm, width=\textwidth]{Images/chain6_perf}
 	\begin{itemize}
 %		\item Hilbert spaces of same dimensions are isomorphic
@@ -513,12 +569,16 @@ The graph product of this switching network with itself yields a higher order sw
 	0 & 0 & 0 & 0 & \sqrt{5} & 0 
 	\end{pmatrix}\]
 %    Local couplings leads to much more variety, spin chains with perfect couplings (isomorphism of hilbert spaces to spin n-something particle), not yet looked at switch also from flattened hypercube
-\end{frame}
+\end{frame}}
 
-Even more variety can be achieved by allowing local couplings. These can, in principal, be arbitrary. The hamiltonians of $N$-qubit spin chains and particles of spin $\frac{N-1}{2}$ ($H = \lambda S_x$) share the same structure. The transition amplitude for both turns out to be the same expression, if the couplings for the chain are changed to $J_i = \sqrt{i(N-i)}$. The time evolution operator for this particle is simply a rotation around the x-axis. The matrix elements for this rotation are well-known and can be looked up. The overall transition amplitude equals that of the two qubit chain with an exponent. Therefore, perfect state transfer on a chain coupled according to the above expression is always possible, motivating that these are called perfect couplings.
+\begin{center}
+	\includeslide{PerfectCouplings}
+\end{center}
 
-\subsection{Higher Excitation Subspaces}
-\begin{frame}{Higher Excitation Subspaces} %[fragile,t] for listings
+\noindent Even more variety can be achieved by allowing local couplings. These can, in principal, be arbitrary. The hamiltonians of $N$-qubit spin chains and particles of spin $\frac{N-1}{2}$ ($H = \lambda S_x$) share the same structure. The transition amplitude for both turns out to be the same expression, if the couplings for the chain are changed to $J_i = \frac{\lambda}{2}\sqrt{i(N-i)}$. The time evolution operator for this particle is simply a rotation around the x-axis. The matrix elements for this rotation are well-known and can be looked up. The overall transition amplitude equals that of the two qubit chain with an exponent, if one chooses $\lambda = 2$. Therefore, perfect state transfer on a chain coupled according to the above expression is always possible, motivating that these are called perfect couplings.
+
+\subsection{Higher excitation subspaces}
+\mode<presentation>{\begin{frame}{Higher excitation subspaces}\label{HigherExSub} %[fragile,t] for listings
 	\begin{columns}
 		\begin{column}{0.5\textwidth}
 			\centering
@@ -553,14 +613,18 @@ Even more variety can be achieved by allowing local couplings. These can, in pri
 %    return edges
 %	\end{lstlisting}
 %    Possibility to control more than one qubit at each site, rings, QEC and fault tolerance, easy to calculate higher spin subspace graphs and hamiltonians, even full hamiltonian
-\end{frame}
+\end{frame}}
 
-It might be possible to control multiple qubits at each site, such that quantum error correction is possible. Also, it might turn out (see next slide), that PST is possible in the 2-spin subspace without necessitating control over more than one qubit. If QEC is possible, near perfect state transfer suffices to enable computing. Some implementation of a stabilizer code would flatten the fidelity curves, so that imperfect timing in reading the received qubit state poses no hard risk to successful state transfer.\\
-If multiple qubits can be controlled at the same time, networks could be capable of simultaneous state transfer to different sites.\\
+\begin{center}
+	\includeslide{HigherExSub}
+\end{center}
+
+\noindent It might be possible to control multiple qubits at each site, such that quantum error correction is applicable. Also, it might turn out that PST is possible in the 2-spin subspace without necessitating control over more than one qubit. If QEC is possible, near perfect state transfer suffices to enable computing. Some implementation of a stabilizer code would flatten the fidelity curves, so that imperfect timing in reading the received qubit state poses no hard risk to successful state transfer.\par
+If multiple qubits can be controlled at the same time, networks could be capable of simultaneous state transfer to different sites.\par
 Computing higher spin subspace graphs is easily possible by examining next neighbours of single excited spin states and assembling the edges according to these connections. This way, the whole hamiltonian can be rebuilt by starting at the single spin subspace graph, then calculating higher spin graphs up to spin $N$ in an $N$-qubit spin network. The adjacency matrix of all these graphs taken as a single disconnected graph is the complete hamiltonian of the system.
 
 \subsection{Entanglement}
-\begin{frame}{Entanglement}
+\mode<presentation>{\begin{frame}{Entanglement}\label{Entanglement}
 	\begin{center}
 		\includegraphics[trim=0mm 0 0 0mm, width=0.5\textwidth]{Images/entanglement}
 	\end{center}
@@ -570,22 +634,41 @@ Computing higher spin subspace graphs is easily possible by examining next neigh
 		\item Quantum teleportation as transportation scheme
 	\end{itemize}
 %    Dynamics of entanglement, teleportation for transport.
-\end{frame}
+\end{frame}}
 
-\subsection{Experimental Verification}
-\begin{frame}{Experimental Verification}
+\begin{center}
+	\includeslide{Entanglement}
+\end{center}
+
+\noindent Entanglement is a necessary ingredient for quantum computation. Using spin networks, parts of an entangled system can be transported to other sites in order to entangle distant parts of the quantum computer. A quantum teleportation protocol can then be used to transport states with high fidelity. Alternatively, this enables distribution of parts of a quantum calculation to different registers, such that in a highly separated region algorithms using many entangled qubits in distant registers can be performed.
+%A similar scheme is used in blind quantum computing, were iterative gate teleportation is used to overcome limitations from the no-programming theorem barrier.
+
+\subsection{Computer experimental verification}
+\mode<presentation>{\begin{frame}{Computer experimental verification}\label{ComputerExperiment}
 	\includegraphics[trim=0mm 0 0 0mm, width=0.9\textwidth]{Images/experiment_chains}
 %    Some experiments verify these results, Georgios paper (cm4) for two-spin up subspace analysis and great pictures, quantum dots
-\end{frame}
+\end{frame}}
+
+\begin{center}
+	\includeslide{ComputerExperiment}
+\end{center}
+
+\noindent Monte Carlo simulations have shown that perfect state transfer using coupled quantum dots might turn out to be a realizable implementation for spacers in quantum processors. The graphs show the fidelity of state transfer in a spin chain of length 21. The top graphs assume a single excess electron in the quantum dot structure, while the bottom ones assume two excess electrons. Both left sides are simulated with constant couplings, while on the right sides, perfect couplings were used. In both cases, perfect couplings enable perfect state transfer in these structures. 
 
 \section{Goal}
-\begin{frame}{Goal}
+\mode<presentation>{\begin{frame}{Goal}\label{Goal}
 	\begin{itemize}
 		\item Framework for engineering spin chains with given properties
 		\item Define certain constraints for hamiltonian
 		\item Single spin subgraph should yield a network capable of PST
 	\end{itemize}
 %    Define general constraints on hamiltonians so that the single spin subspace graph leads to a network automatically capable of perfect state transfer, hints: symmetry, EV difference quotient rational, connectivity.
-\end{frame}
+\end{frame}}
+
+\begin{center}
+	\includeslide{Goal}
+\end{center}
+
+\noindent All these findings hint at a mechanism that can be used to derive an adjacency matrix with certain properties, such that its single-spin subgraph automatically provides a spin network exhibiting the desired properties. A very early example of what this might look like is the flattened graph of a two-link hypercube, or in other words, the fourfold graph product of a 2-qubit chain with itself. Flattened out, this graph can be arranged in columns such that each column contains only qubits with an equal number of forward and backward edges connecting qubits in adjacent columns only. The qubits in each respective column can be renormalized. The resulting couplings turn out to be the perfect couplings as described earlier. This reduction from a 16-qubit network to a 5-qubit network might be possible analytically and provide a whole class of PST capable networks with locally changing couplings.
 
 \end{document}
