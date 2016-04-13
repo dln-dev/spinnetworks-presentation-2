@@ -3,16 +3,16 @@ all: slides handout article
 projname = spinnetworks
 compile = pdflatex
 
-slides: $(projname).beamer.tex $(projname).tex
+slides: $(projname).header.tex $(projname).beamer.tex $(projname).tex
 	$(compile) $(projname).slides.tex
 
-handout: $(projname).handout.tex $(projname).tex
+handout: $(projname).header.tex $(projname).handout.tex $(projname).tex
 	$(compile) $(projname).handout.tex
 
-article: $(projname).beamer.tex $(projname).tex
+article: $(projname).header.tex $(projname).beamer.tex $(projname).tex
 	$(compile) $(projname).article.tex
 
-clean: clean_beamer clean_slides clean_article
+clean: clean_beamer clean_slides clean_article clean_header
 
 clean_slides:
 	rm -f $(projname).slides.{aux,fdb_latexmk,fls,log,nav,out,snm,toc}
@@ -23,4 +23,6 @@ clean_handout:
 clean_article:
 	rm -f $(projname).article.{aux,fdb_latexmk,fls,log,nav,out,snm,toc}
 
+clean_header:
+	rm -f $(projname).header.{aux,fdb_latexmk,fls,log,nav,out,snm,toc}
 
