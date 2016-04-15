@@ -17,7 +17,7 @@ article: $(projname).header.tex $(projname).article.tex $(projname).tex
 	$(compile) $(projname).article.tex
 	$(compile) $(projname).article.tex
 
-clean: clean_slides clean_handout clean_article clean_rest
+clean: clean_slides clean_handout clean_article 
 
 clean_slides:
 	rm -f $(projname).slides.{aux,fdb_latexmk,fls,log,nav,out,snm,toc}
@@ -28,5 +28,5 @@ clean_handout:
 clean_article:
 	rm -f $(projname).article.{aux,fdb_latexmk,fls,log,nav,out,snm,toc,bbl,blg}
 
-clean_rest:
-	rm -f $(projname).{aux,log}
+clean_pdf:
+	rm -f $(projname).*.pdf
