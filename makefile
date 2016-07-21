@@ -17,6 +17,7 @@ article: $(projname).header.tex $(projname).article.tex $(projname).tex
 	$(compile) $(projname).article.tex
 	$(compile) $(projname).article.tex
 
+# set PDFSETTINGS to screen for lower or printer/prepress for higher quality
 compress: $(projname).slides.pdf $(projname).handout.pdf $(projname).article.pdf
 	@@gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/ebook -dNOPAUSE -dQUIET -dBATCH -sOutputFile=slides.pdf $(projname).slides.pdf
 	@@gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/ebook -dNOPAUSE -dQUIET -dBATCH -sOutputFile=handout.pdf $(projname).handout.pdf
