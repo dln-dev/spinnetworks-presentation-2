@@ -1,4 +1,4 @@
-all: slides handout article clean
+all: slides handout article compress clean
 
 projname = spinnetworks
 compile = pdflatex
@@ -16,6 +16,11 @@ article: $(projname).header.tex $(projname).article.tex $(projname).tex
 	bibtex $(projname).article.aux
 	$(compile) $(projname).article.tex
 	$(compile) $(projname).article.tex
+
+compress: $(projname).slides.pdf $(projname).handout.pdf $(projname).article.pdf
+	@@gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/ebook -dNOPAUSE -dQUIET -dBATCH -sOutputFile=slides.pdf $(projname).slides.pdf
+	@@gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/ebook -dNOPAUSE -dQUIET -dBATCH -sOutputFile=handout.pdf $(projname).handout.pdf
+	@@gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/ebook -dNOPAUSE -dQUIET -dBATCH -sOutputFile=article.pdf $(projname).article.pdf
 
 clean: clean_slides clean_handout clean_article 
 
