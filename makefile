@@ -26,13 +26,13 @@ compress: $(projname).slides.pdf $(projname).handout.pdf $(projname).article.pdf
 clean: clean_slides clean_handout clean_article 
 
 clean_slides:
-	rm -f $(projname).slides.{aux,fdb_latexmk,fls,log,nav,out,snm,toc}
+	rm -f $(projname).slides.{aux,fdb_latexmk,fls,log,nav,out,snm,toc,pdf}
 
 clean_handout:
-	rm -f $(projname).handout.{aux,fdb_latexmk,fls,log,nav,out,snm,toc}
+	rm -f $(projname).handout.{aux,fdb_latexmk,fls,log,nav,out,snm,toc,pdf}
 
 clean_article:
-	rm -f $(projname).article.{aux,fdb_latexmk,fls,log,nav,out,snm,toc,bbl,blg}
+	rm -f $(projname).article.{aux,fdb_latexmk,fls,log,nav,out,snm,toc,bbl,blg,pdf}
 
 clean_pdf:
-	rm -f $(projname).*.pdf
+	rm -f *.pdf

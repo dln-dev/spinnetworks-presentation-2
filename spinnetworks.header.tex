@@ -7,5 +7,16 @@
 %\usepackage{listings}		% nice source code presentation
 \usepackage{cite}
 \usepackage{amssymb}		% needed by scrartcl for mathfrak etc.
+\usepackage{eso-pic}	    % for mycite
+\usepackage[calc]{picture}  % "
+\usepackage{mathtools}		% for SmallMatrix
 
+\newcommand\SmallMatrix[1]{{%
+  \scriptsize\arraycolsep=0.3\arraycolsep\ensuremath{\begin{pmatrix}#1\end{pmatrix}}}}
+  
 \newcommand{\mbeq}{\overset{!}{=}}	% "mbeq": must be equal
+
+\newcommand{\mycite}[2][0]{%
+\AddToShipoutPictureFG*{%
+\put(0.95\paperwidth,0.07\paperheight + 12pt * {#1}){\makebox(0,0)[r]{\color{black!60!white!30!green}{\tiny{\rmfamily{ #2 }}}}}}%
+}
