@@ -1,7 +1,7 @@
 # spinnetworks-presentation
 LaTeX beamer presentation
 
-This is a presentation I gave about spin networks for quantum state transfer in april 2016.
+This is a presentation I gave about spin networks for quantum state transfer in november 2016.
 It includes a handout version in article form, so that I'll remember what I did here in the future.
 The beamer template is MinimalGreen, which can be found in its respective repository here.
 
